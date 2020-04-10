@@ -34,6 +34,18 @@ export const GET_POST = gql`
   }
 `;
 
+export const SEARCH_POSTS = gql`
+  query($searchTerm: String) {
+    searchPosts(searchTerm: $searchTerm) {
+      _id
+      title
+      description
+      imageUrl
+      likes
+    }
+  }
+`;
+
 export const GET_CURRENT_USER = gql`
   query {
     getCurrentUser {
@@ -48,6 +60,20 @@ export const GET_CURRENT_USER = gql`
         title
         imageUrl
       }
+    }
+  }
+`;
+
+export const GET_USER_POSTS = gql`
+  query($userId: ID!) {
+    getUserPosts(userId: $userId) {
+      _id
+      title
+      imageUrl
+      description
+      categories
+      createdDate
+      likes
     }
   }
 `;
@@ -97,6 +123,46 @@ export const ADD_POST = gql`
       imageUrl
       categories
       description
+    }
+  }
+`;
+
+export const UPDATE_USER_POST = gql`
+  mutation(
+    $postId: ID!
+    $userId: ID!
+    $title: String!
+    $imageUrl: String!
+    $categories: [String]!
+    $description: String!
+  ) {
+    updateUserPost(
+      postId: $postId
+      userId: $userId
+      title: $title
+      imageUrl: $imageUrl
+      categories: $categories
+      description: $description
+    ) {
+      _id
+      title
+      imageUrl
+      description
+      categories
+      createdDate
+      likes
+      createdBy {
+        _id
+        avatar
+      }
+    }
+  }
+`;
+
+export const DELETE_USER_POST = gql`
+  mutation($postId: ID!) {
+    deleteUserPost(postId: $postId) {
+      _id
     }
   }
 `;
